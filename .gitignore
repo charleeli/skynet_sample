@@ -39,3 +39,10 @@ luac.out
 *.x86_64
 *.hex
 
+# Others
+*.*~
+*.rdb
+*.unqlite
+.idea/
+build/
+log/

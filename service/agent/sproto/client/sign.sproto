@@ -1,0 +1,7 @@
+# [sign] ------ [200, 299) ------
+view_sign 200 {
+    response {
+        errcode 0: integer
+        sign 1:Sign
+    }
+}
