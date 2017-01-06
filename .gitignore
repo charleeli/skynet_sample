@@ -41,6 +41,7 @@ luac.out
 
 # Others
 *.*~
+*.pyc
 *.rdb
 *.unqlite
 .idea/
