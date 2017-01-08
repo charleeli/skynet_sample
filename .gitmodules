@@ -25,3 +25,9 @@
 [submodule "3rd/redis"]
 	path = 3rd/redis
 	url = https://github.com/antirez/redis.git
+[submodule "3rd/levent"]
+	path = 3rd/levent
+	url = https://github.com/xjdrew/levent.git
+[submodule "3rd/libev"]
+	path = 3rd/libev
+	url = https://github.com/enki/libev.git
