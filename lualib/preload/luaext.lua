@@ -6,6 +6,26 @@ function enum(begin_idx)
     end
 end
 
+function config(path, pre)
+    assert(path)
+    local env = pre or {}
+    local f = assert(loadfile(path,"t",env))
+    f()
+    return env
+end
+
+string.split = function(s, delim)
+    local split = {}
+    local pattern = "[^" .. delim .. "]+"
+    string.gsub(s, pattern, function(v) table.insert(split, v) end)
+    return split
+end
+
+-- 判断table是否为空
+table.empty = function(t)
+    return not next(t)
+end
+
 table.print = function(T, CR)
     assert(type(T) == "table",'arg should be a table!')
 
