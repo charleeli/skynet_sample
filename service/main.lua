@@ -7,8 +7,15 @@ skynet.start(function()
 	skynet.call(log, "lua", "start")
 	skynet.newservice("debug_console", tonumber(skynet.getenv("debug_port")))
 	skynet.uniqueservice("sproto_loader")
+	skynet.uniqueservice("crab_loader")
 	snax.uniqueservice("accountdb_snax")
     snax.uniqueservice("gamedb_snax")
+	skynet.newservice('ws_master')
+	skynet.newservice('web_master')
+
+	if NODE_NAME == require("quick").center_node_name() then
+		skynet.uniqueservice(true, 'admin')
+	end
 
 	local gate = skynet.uniqueservice("gated")		-- 启动游戏服务器
 	skynet.call(gate, "lua", "init")				-- 初始化，预先分配若干agent

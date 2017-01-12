@@ -1,9 +1,9 @@
-local lcrab = require 'lcrab'
+local Lcrab = require 'lcrab'
 local M = {}
 
 local function _toutf8(line) 
     local words = {}
-    for _, c in utf8.codes(line) do
+    for p, c in utf8.codes(line) do
         table.insert(words, c)
     end
     return words
@@ -18,7 +18,7 @@ function M.init(path)
         local t = _toutf8(line)
         table.insert(words, t)
     end
-    lcrab.open(words)
+    Lcrab.open(words)
 end
 
 function M.is_crabbed(str)
@@ -27,7 +27,7 @@ function M.is_crabbed(str)
     end
 
     local t = _toutf8(str)
-    return not lcrab.filter(t)
+    return not Lcrab.filter(t)
 end
 
 return M
