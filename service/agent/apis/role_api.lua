@@ -37,7 +37,7 @@ function M._load_role(role_td)
     end)
     
     Env.timer_mgr:add_timer(180, function()
-        role:lock_session('update_mailbox')
+        --role:lock_session('update_mailbox')
     end)
 
     Env.timer_mgr:start()

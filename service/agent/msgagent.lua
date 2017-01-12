@@ -1,6 +1,7 @@
 local skynet = require "skynet"
 local queue = require "skynet.queue"
 local snax = require "snax"
+local ctime = require "ctime"
 local lfs = require"lfs"
 local sprotoloader = require "sprotoloader"
 local sproto_env = require "sproto_env"
@@ -182,7 +183,7 @@ local function msg_unpack(msg, sz)
 end
 
 local function msg_dispatch(netmsg)
-    local begin = skynet.time()
+    local begin = ctime.timestamp()
 	local type, name, request, response = c2s_host:dispatch(netmsg)
 
 	if not request_handlers[name] then
@@ -193,7 +194,7 @@ local function msg_dispatch(netmsg)
 
     skynet.send(zinc_client, "zinc_client", string.pack(">s2",response(r)))
 
-	LOG_INFO("process %s time used %f ms", name, (skynet.time()-begin)*10)
+	LOG_INFO("process %s time used %f ms", name, (ctime.timestamp()-begin)*1000)
 end
 
 skynet.register_protocol {
