@@ -1,6 +1,7 @@
 local skynet = require "skynet"
 local notify = require 'notify'
 local session_lock = require 'session_lock'
+local Timer = require 'timer'
 local date = require 'date'
 local env = require 'env'
 
@@ -9,6 +10,12 @@ local M = {}
 function M.start(e)
     env.uid = e.uid
     env.zinc_client = e.zinc_client
+
+    if env.timer then
+        env.timer:stop()
+    end
+
+    env.timer = Timer(10)
 
     if not e.uid then
         LOG_ERROR("msgagent start fail, no uid")

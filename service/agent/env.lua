@@ -5,7 +5,7 @@ env.uid = nil
 env.account = nil
 env.role = nil
 env.session_lock = nil
-env.timer_mgr = nil
+env.timer = nil
 env.zinc_client = nil
 
 return share_env.fini(env)

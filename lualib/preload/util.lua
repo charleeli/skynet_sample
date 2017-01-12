@@ -44,8 +44,3 @@ function LOG_FATAL(fmt, ...)
     end
     skynet.send("log", "lua", "fatal", SERVICE_NAME, msg)
 end
-
-log_info = LOG_INFO
-log_warn = LOG_WARN
-log_error = LOG_ERROR
-log_fatal = LOG_FATAL
