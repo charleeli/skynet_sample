@@ -9,6 +9,7 @@ local M = {}
 
 function M.start(e)
     env.uid = e.uid
+    env.subid = e.subid
     env.zinc_client = e.zinc_client
 
     if env.timer then

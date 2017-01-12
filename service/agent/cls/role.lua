@@ -1,5 +1,7 @@
 local skynet = require "skynet"
+local cluster = require "cluster"
 local snax = require "snax"
+local quick = require "quick"
 local lfs = require"lfs"
 local td = require "td"
 local Message = require 'message'
@@ -87,6 +89,10 @@ end
 
 function Role:online()
     LOG_INFO("role online begin")
+
+    local online_cli = cluster.snax(quick.center_node_name(), "online_snax")
+    online_cli.req.online(NODE_NAME, skynet.self(), env.uid, env.subid)
+
     self.message:pub(const.EVT_ONLINE)
 
     LOG_INFO("role online end")
@@ -94,6 +100,9 @@ end
 
 function Role:_offline()
     LOG_INFO("Role offline begin")
+
+    local online_cli = cluster.snax(quick.center_node_name(), "online_snax")
+    online_cli.req.offline(env.uid)
 
     env.timer:stop()
 

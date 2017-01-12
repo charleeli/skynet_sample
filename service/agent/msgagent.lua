@@ -127,7 +127,7 @@ function CMD.auth(source, uid, client_fd)
 	    uid, FD, zinc_client
     )
 
-    cmd.start({uid = uid,zinc_client = zinc_client})
+    cmd.start({uid = uid, subid = SUB_ID, zinc_client = zinc_client})
 
 	if not running then
 		running = true

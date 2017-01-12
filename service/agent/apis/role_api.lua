@@ -36,9 +36,9 @@ function M.load_role()
         env.account = tostring(env.uid) --TODO:暂时第三方账号即为游戏服账号
         
         if not env.role then
-            local gamedb_snax = snax.uniqueservice("gamedb_snax")
+            local gamedb_cli = snax.uniqueservice("gamedb_snax")
 
-            local raw_json_text = gamedb_snax.req.get(env.account)
+            local raw_json_text = gamedb_cli.req.get(env.account)
 
             local role_td
             if not raw_json_text then
@@ -54,7 +54,7 @@ function M.load_role()
             'load role<%s|%s|%s>',
             env.account,env.role:get_uid(), env.role:get_uuid()
         )
-       
+
         return env.role:gen_proto()
     end)
 end
@@ -74,9 +74,9 @@ function M.create_role(name, gender)
     role.base.level = 1
     role.base.vip = 0
 
-    local gamedb_snax = snax.uniqueservice("gamedb_snax")
+    local gamedb_cli = snax.uniqueservice("gamedb_snax")
 
-    local ret = gamedb_snax.req.set(env.account,td.DumpToJSON('Role', role))
+    local ret = gamedb_cli.req.set(env.account,td.DumpToJSON('Role', role))
 
     if not ret then
         LOG_ERROR('ac: <%s> create fail', env.account)

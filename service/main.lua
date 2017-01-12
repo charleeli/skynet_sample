@@ -15,6 +15,7 @@ skynet.start(function()
 
 	if NODE_NAME == require("quick").center_node_name() then
 		skynet.uniqueservice(true, 'admin')
+		snax.uniqueservice("online_snax")
 	end
 
 	local gate = skynet.uniqueservice("gated")		-- 启动游戏服务器
