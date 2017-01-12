@@ -8,10 +8,12 @@ skynet.start(function()
 	skynet.newservice("debug_console", tonumber(skynet.getenv("debug_port")))
 	skynet.uniqueservice("sproto_loader")
 	skynet.uniqueservice("crab_loader")
-	snax.uniqueservice("accountdb_snax")
-    snax.uniqueservice("gamedb_snax")
 	skynet.newservice('ws_master')
 	skynet.newservice('web_master')
+
+	snax.uniqueservice("accountdb_snax")
+    snax.uniqueservice("gamedb_snax")
+	snax.uniqueservice("agent_snax")
 
 	if NODE_NAME == require("quick").center_node_name() then
 		skynet.uniqueservice(true, 'admin')
