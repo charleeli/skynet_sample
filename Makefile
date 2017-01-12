@@ -88,7 +88,7 @@ redis:
 	install -p -m 0755 3rd/redis/src/redis-cli $(BUILD_BIN_DIR)/redis-cli
 	install -p -m 0755 3rd/redis/src/redis-server $(BUILD_BIN_DIR)/redis-server
 
-LUACLIB = log lsocket lfs lcrab enet unqlite ctime cjson base64 webpage random netpack2
+LUACLIB = log lsocket lfs lcrab enet unqlite ctime cjson base64 webpage random
 LEVENTLIB = levent bson mongo
 CSERVICE = zinc_client
 
@@ -138,9 +138,6 @@ $(BUILD_LUACLIB_DIR)/webpage.so : lualib-src/lua-webpage.c | $(BUILD_LUACLIB_DIR
 	$(CC) $(CFLAGS) $(SHARED) $^ -o $@
 
 $(BUILD_LUACLIB_DIR)/random.so : lualib-src/lua-random.c | $(BUILD_LUACLIB_DIR)
-	$(CC) $(CFLAGS) $(SHARED) $^ -o $@
-
-$(BUILD_LUACLIB_DIR)/netpack2.so : lualib-src/lua-netpack2.c | $(BUILD_LUACLIB_DIR)
 	$(CC) $(CFLAGS) $(SHARED) $^ -o $@
 
 $(BUILD_LUACLIB_DIR)/levent/levent.so : 3rd/levent/src/lua-levent.c 3rd/levent/src/lua-errno.c \

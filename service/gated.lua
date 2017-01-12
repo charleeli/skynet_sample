@@ -1,3 +1,4 @@
+local skynet_core = require "skynet.core"
 local msgserver = require "snax.msg_server"
 local crypt = require "crypt"
 local skynet = require "skynet"
@@ -36,8 +37,9 @@ function server.auth_handler(username, fd)
 end
 
 function server.online_handler(uid, fd)
-	--skynet.call(users[uid].agent, "lua", "online", uid, fd)
+
 end
+
 -- login server disallow multi login, so login_handler never be reentry
 -- call by login server
 -- 内部命令login处理函数
@@ -126,7 +128,7 @@ end
 function server.request_handler(username, msg)
 	--local uid = msgserver.userid(username)
 	local u = username_map[username]
-	return skynet.tostring(skynet.rawcall(u.agent, "client", msg))
+	skynet_core.send(u.agent, skynet.PTYPE_CLIENT , nil , msg)
 end
 
 -- call by self (when gate open)

@@ -4,7 +4,6 @@ local gateserver = require "snax.gateserver"
 local netpack = require "netpack"
 local crypt = require "crypt"
 local socketdriver = require "socketdriver"
---local netpack2 = require 'netpack2'
 local assert = assert
 local b64encode = crypt.base64encode
 local b64decode = crypt.base64decode
@@ -236,28 +235,6 @@ function server.start(conf)
 	local request_handler = assert(conf.request_handler)
 	
 	local function do_request(fd, message)
-		--[[
-		local u = assert(connection[fd], "invalid fd")
-		local session = string.unpack(">I4", message, -4)
-		message = message:sub(1,-5)
-		local ok, result = pcall(conf.request_handler, u.username, message)
-
-		result = result or ""
-		if not ok then
-			skynet.error(result)
-			--result = "\0" .. session
-			result = string.pack(">BI4", 0, session)
-		else
-			--result = result .. '\1' .. session
-			result = result .. string.pack(">BI4", 1, session)
-		end
-
-		if connection[fd] then
-			--socketdriver.send(fd, netpack2.pack_string(result))
-			socketdriver.send(fd, string.pack(">s2",result))
-		end
-		--]]
-
 		local u = assert(connection[fd], "invalid fd")
 		pcall(conf.request_handler, u.username, message)
 	end

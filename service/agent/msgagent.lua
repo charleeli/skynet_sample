@@ -1,5 +1,4 @@
 local skynet = require "skynet"
-local netpack2 = require 'netpack2'
 local queue = require "skynet.queue"
 local snax = require "snax"
 local lfs = require"lfs"
@@ -174,7 +173,6 @@ end
 
 local function msg_unpack(msg, sz)
 	local netmsg = skynet.tostring(msg, sz)
-
 	if not netmsg then
 		LOG_ERROR("msg_unpack error")
 		error("msg_unpack error")
@@ -193,16 +191,9 @@ local function msg_dispatch(netmsg)
 
 	local r = request_handlers[name](request)
 
-    skynet.send(
-        zinc_client,
-        "zinc_client",
-        --netpack2.pack_string(response(r))
-        --netpack2.pack_string(response(r) .. string.pack(">BI4", 1, 0))
-        string.pack(">s2",response(r))
-    )
+    skynet.send(zinc_client, "zinc_client", string.pack(">s2",response(r)))
 
 	LOG_INFO("process %s time used %f ms", name, (skynet.time()-begin)*10)
-	return response(r)
 end
 
 skynet.register_protocol {
@@ -214,7 +205,7 @@ skynet.register_protocol {
 	end,
 
 	dispatch = function (_, _, netmsg)
-		skynet.ret(msg_dispatch(netmsg))
+		msg_dispatch(netmsg)
 	end
 }
 
