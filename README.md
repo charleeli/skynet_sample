@@ -44,9 +44,11 @@ send_private_mail {to_uuid = '56d92ba7e428a68d57000486',subject='quick',content=
 
 ## Benchmark
 ```
-cd ./tool/robot
-../../build/bin/lua client.lua
-script ./script/sign.lua
-
+cd ./tool/benchmark
 ../../build/bin/lua benchmark.lua -s ./script/sign.lua
+
+
+../../build/bin/lua client.lua
+命令行输入
+script ./script/sign.lua
 ```
