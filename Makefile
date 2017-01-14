@@ -88,7 +88,7 @@ redis:
 	install -p -m 0755 3rd/redis/src/redis-cli $(BUILD_BIN_DIR)/redis-cli
 	install -p -m 0755 3rd/redis/src/redis-server $(BUILD_BIN_DIR)/redis-server
 
-LUACLIB = log lsocket lfs lcrab enet unqlite ctime cjson base64 webpage random
+LUACLIB = log lsocket lfs lcrab enet unqlite ctime cjson base64 webpage random array skiplist
 LEVENTLIB = levent bson mongo
 CSERVICE = zinc_client
 
@@ -138,6 +138,13 @@ $(BUILD_LUACLIB_DIR)/webpage.so : lualib-src/lua-webpage.c | $(BUILD_LUACLIB_DIR
 	$(CC) $(CFLAGS) $(SHARED) $^ -o $@
 
 $(BUILD_LUACLIB_DIR)/random.so : lualib-src/lua-random.c | $(BUILD_LUACLIB_DIR)
+	$(CC) $(CFLAGS) $(SHARED) $^ -o $@
+
+$(BUILD_LUACLIB_DIR)/array.so : lualib-src/lua-array.c | $(BUILD_LUACLIB_DIR)
+	$(CC) $(CFLAGS) $(SHARED) $^ -o $@
+
+$(BUILD_LUACLIB_DIR)/skiplist.so: lualib-src/lua-skiplist/skiplist.h lualib-src/lua-skiplist/skiplist.c \
+    lualib-src/lua-skiplist/lua-skiplist.c
 	$(CC) $(CFLAGS) $(SHARED) $^ -o $@
 
 $(BUILD_LUACLIB_DIR)/levent/levent.so : 3rd/levent/src/lua-levent.c 3rd/levent/src/lua-errno.c \
