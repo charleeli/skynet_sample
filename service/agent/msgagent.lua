@@ -106,7 +106,7 @@ end
 -- 玩家登录游服后调用
 function CMD.login(source, uid, subid, secret)
 	-- you may use secret to make a encrypted data stream
-	LOG_INFO(string.format("%d is login", uid))
+	LOG_INFO("[%s] %d is login", skynet.address(skynet.self()), uid)
 	gate = source
 	UID = uid
 	SUB_ID = subid
@@ -119,12 +119,12 @@ end
 -- 玩家登录游服，握手成功后调用
 function CMD.auth(source, uid, client_fd)
 	FD = client_fd
-	LOG_INFO(string.format("%d is real login", uid))
+	LOG_INFO("[%s] %d is real login", skynet.address(skynet.self()), uid)
 
     zinc_client = skynet.launch("zinc_client", FD)
     LOG_INFO(
-	    "init agent's environmnet uid=%d fd=%d zinc_client=%x",
-	    uid, FD, zinc_client
+	    "[%s] init agent's environmnet uid=%d fd=%d zinc_client=%x",
+	    skynet.address(skynet.self()), uid, FD, zinc_client
     )
 
     cmd.start({uid = uid, subid = SUB_ID, zinc_client = zinc_client})
@@ -142,14 +142,14 @@ end
 
 function CMD.logout(source)
 	-- NOTICE: The logout MAY be reentry
-	skynet.error(string.format("%s is logout", UID))
+	LOG_INFO("[%s] %s is logout", skynet.address(skynet.self()), UID)
 	logout()
 end
 
 function CMD.afk(source)
 	-- the connection is broken, but the user may back
 	afktime = skynet.time()
-	skynet.error(string.format("AFK"))
+	skynet.error(string.format("[%s] AFK", skynet.address(skynet.self())))
 end
 
 local request_handlers = {}
@@ -175,8 +175,8 @@ end
 local function msg_unpack(msg, sz)
 	local netmsg = skynet.tostring(msg, sz)
 	if not netmsg then
-		LOG_ERROR("msg_unpack error")
-		error("msg_unpack error")
+		LOG_ERROR("[%s] msg_unpack error", skynet.address(skynet.self()))
+		error("[%s] msg_unpack error", skynet.address(skynet.self()))
 	end
 	
 	return netmsg
@@ -187,14 +187,17 @@ local function msg_dispatch(netmsg)
 	local type, name, request, response = c2s_host:dispatch(netmsg)
 
 	if not request_handlers[name] then
-	    LOG_ERROR('request_handler %s not exist or not loaded',name)
+	    LOG_ERROR('[%s] request_handler %s not exist or not loaded',skynet.address(skynet.self()), name)
 	end
 
-	local r = request_handlers[name](request)
+	if cmd.verify(name) then
+		local r = request_handlers[name](request)
+    	skynet.send(zinc_client, "zinc_client", string.pack(">s2",response(r)))
+	else
+		skynet.send(zinc_client, "zinc_client", string.pack(">s2",response{errcode = ERRCODE.E_ONLINE}))
+	end
 
-    skynet.send(zinc_client, "zinc_client", string.pack(">s2",response(r)))
-
-	LOG_INFO("process %s time used %f ms", name, (ctime.timestamp()-begin)*1000)
+	LOG_INFO("[%s] process %s time used %f ms", skynet.address(skynet.self()), name, (ctime.timestamp()-begin)*1000)
 end
 
 skynet.register_protocol {

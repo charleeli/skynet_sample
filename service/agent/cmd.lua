@@ -7,6 +7,14 @@ local env = require 'env'
 
 local M = {}
 
+function M.verify(name)
+    if not env.role and name ~= 'load_role' then
+        return false
+    end
+
+    return true
+end
+
 function M.start(e)
     env.uid = e.uid
     env.subid = e.subid
@@ -47,7 +55,7 @@ function M.close()
                         env.role:save_db()
                     end
 
-                    LOG_ERROR("agent force offline!")
+                    LOG_ERROR("msgagent force offline!")
                     break
                 end
                 skynet.sleep(5*100)
@@ -57,6 +65,7 @@ function M.close()
 
         if env.role then
             if not env.role:offline() then
+                LOG_ERROR("msgagent offline failed!")
                 return 1
             end
         end
