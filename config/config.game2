@@ -60,6 +60,7 @@ lua_path = skynetroot .."lualib/?.lua;" ..
             "./lualib/?.lua;" ..
 		    "./lualib/preload/?.lua;" ..
 		    "./service/agent/?.lua;"..
+		    "./service/lualib/?.lua;"..
 		    "./service/?.lua;"..
 		    "./build/lualib/?.lua"
 

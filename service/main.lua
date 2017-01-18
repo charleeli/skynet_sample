@@ -8,15 +8,18 @@ skynet.start(function()
 	skynet.newservice("debug_console", tonumber(skynet.getenv("debug_port")))
 	skynet.uniqueservice("sproto_loader")
 	skynet.uniqueservice("crab_loader")
+    skynet.newservice('chat_listener')
 	skynet.newservice('ws_master')
 	skynet.newservice('web_master')
 
 	snax.uniqueservice("accountdb_snax")
     snax.uniqueservice("gamedb_snax")
+	snax.uniqueservice("maildb_snax")
 	snax.uniqueservice("agent_snax")
 
 	if NODE_NAME == require("quick").center_node_name() then
 		skynet.uniqueservice(true, 'admin')
+        skynet.uniqueservice(true, 'chat_speaker')
 		snax.uniqueservice("online_snax")
 	end
 

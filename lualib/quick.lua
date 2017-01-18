@@ -22,7 +22,7 @@ function quick.send(node, service, api, ...)
     local caller = function(node, service, api, ...)
         local ok, ret = pcall(cluster.call, node, service, api, ...)
         if ok then return ret end
-        return {errcode = ERRNO.E_SERVICE_UNAVAILABLE, errdata=ret}
+        return {errcode = ERRCODE.E_SERVICE, errdata=ret}
     end
      
     skynet.fork(caller, node, service, api, ...)
@@ -48,17 +48,21 @@ function quick.caller(g_service)
             local ok, ret = pcall(
                 cluster.call, center_node_name, '.'..g_service, api, ...
             )
-            
+
             if ok then return ret end
-            
-            return {errcode = ERRNO.E_SERVICE_UNAVAILABLE, errdata=ret}
+
+            LOG_ERROR('cluster.call %s %s %s failed', center_node_name, g_service, api)
+            return {errcode = ERRCODE.E_SERVICE, errdata=ret}
         end
     end
  
     return function(api, ...)
         local ok, ret = pcall(skynet.call, '.'..g_service, "lua", api, ...)
-        if ok then return ret end
-        return {errcode = ERRNO.E_SERVICE_UNAVAILABLE, errdata=ret}
+        if ok then
+            return ret
+        end
+        LOG_ERROR('skynet.call this node(%s) %s %s failed', NODE_NAME, g_service, api)
+        return {errcode = ERRCODE.E_SERVICE, errdata=ret}
     end
 end
 

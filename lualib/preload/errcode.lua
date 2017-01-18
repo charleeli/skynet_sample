@@ -7,4 +7,7 @@ ERRCODE = {
     E_FREQUENCY       = -5,       -- 频率太高
     E_LOGIN           = -6,       -- 登陆冲突
     E_ONLINE          = -7,       -- 角色不在线
+    E_CHAT_EMPTY      = -8,       -- 聊天消息长度为0
+    E_CHAT_OVENLEN    = -9,       -- 聊天消息过长
+    E_CONTENT_SENSITIVE = -10,    -- 内容敏感
 }

@@ -4,14 +4,14 @@ local M = {}
 
 function M.connect_handler(delay) 
     if delay < 0 then 
-        return
+        return { errcode = ERRCODE.E_ERROR }
     end
     
     if delay > 0 then 
         skynet.sleep(delay * 100)
     end
     
-    return { errcode = ERRNO.E_OK }
+    return { errcode = ERRCODE.E_OK }
 end
 
 return M
