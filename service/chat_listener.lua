@@ -110,7 +110,7 @@ function Cmd.dispatch(chat_type, chats)
 end
 
 function Cmd.connect_speaker_cb(...)
-    LOG_INFO("trying to connect chat_speaker", ...)
+    LOG_INFO("send heartbeat to chat_speaker", ...)
     local _call_speaker = quick.caller('chat_speaker')
     local  r = _call_speaker('connect', ...)
     return r

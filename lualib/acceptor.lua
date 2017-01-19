@@ -4,7 +4,7 @@ local M = {}
 
 function M.connect_handler(delay) 
     if delay < 0 then 
-        return { errcode = ERRCODE.E_ERROR }
+        return { errcode = ERRCODE.E_FAKE_DISCONNECTED }
     end
     
     if delay > 0 then 

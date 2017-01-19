@@ -1,11 +1,14 @@
 local skynet = require "skynet"
+local cluster = require "cluster"
+local snax = require "snax"
+local quick = require "quick"
 local socket = require "socket"
-local string = string
 local webpage = require "webpage"
 local httpd = require "http.httpd"
 local sockethelper = require "http.sockethelper"
 local urllib = require "http.url"
 local json = require "cjson"
+local cluster_monitor_cli = require 'cluster_monitor_cli'
 
 local function response(id, code, result,header)
 	sockethelper.writefunc(id)(string.format("HTTP/1.1 %03d %s\r\n", code, ""))
@@ -34,9 +37,30 @@ local function login(args)
     return index()
 end
 
+local function quick_shutdown(args)
+    LOG_INFO('request the whole quick cluster shutdown')
+    cluster_monitor_cli.shutdown()
+    return "the whole quick cluster will shutdown\n"
+end
+
+local function quick_kick(args)
+    LOG_INFO('request the whole quick cluster kick')
+
+    local online_cli = cluster.snax(quick.center_node_name(), "online_snax")
+    local ret = online_cli.req.kick(tonumber(args.uid),"force kick")
+    if ret.errcode ~= ERRNO.E_OK then
+        LOG_INFO("kick uid<%s> fail,errcode<%s>",uid,ret.errcode)
+    end
+
+    return json.encode(ret)
+end
+
 local Cmd = {
-    ['index']       = index,    --http://0.0.0.0:10086/quick?cmd=index
-    ['login']       = login,    --http://0.0.0.0:10086/quick?cmd=login&username='admin'&password='admin'
+    ['index']       = index,            --http://0.0.0.0:10086/quick?cmd=index
+    ['login']       = login,            --http://0.0.0.0:10086/quick?cmd=login&username='admin'&password='admin'
+
+    ['shutdown']    = quick_shutdown,   --http://0.0.0.0:10086/quick?cmd=shutdown
+    ['kick']        = quick_kick,       --http://0.0.0.0:10086/quick?cmd=kick&uid=6
 }
 
 skynet.start(function()

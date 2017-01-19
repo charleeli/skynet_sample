@@ -11,6 +11,7 @@ skynet.start(function()
     skynet.newservice('chat_listener')
 	skynet.newservice('ws_master')
 	skynet.newservice('web_master')
+	skynet.monitor('node_monitor')
 
 	snax.uniqueservice("accountdb_snax")
     snax.uniqueservice("gamedb_snax")
@@ -18,6 +19,7 @@ skynet.start(function()
 	snax.uniqueservice("agent_snax")
 
 	if NODE_NAME == require("quick").center_node_name() then
+        skynet.uniqueservice(true, 'cluster_monitor')
 		skynet.uniqueservice(true, 'admin')
         skynet.uniqueservice(true, 'chat_speaker')
 		snax.uniqueservice("online_snax")
