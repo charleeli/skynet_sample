@@ -130,7 +130,7 @@ function Cmd.connected_speaker_cb()
 end
 
 function Cmd.disconnect_speaker_cb()
-    LOG_ERROR("chat_speaker disconnected")
+    --LOG_ERROR("chat_speaker disconnected")
 end
 
 skynet.start(function()

@@ -12,7 +12,7 @@ function Connector:_init(connect_cb, connected_cb, disconnect_cb, reconnect_wait
     self.connect_cb = connect_cb
     self.connected_cb = connected_cb
     self.disconnect_cb = disconnect_cb
-    self.reconnect_wait = reconnect_wait or 3
+    self.reconnect_wait = reconnect_wait or 5
 end
 
 function Connector:set_status_none()

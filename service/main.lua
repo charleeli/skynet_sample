@@ -11,6 +11,7 @@ skynet.start(function()
     skynet.newservice('chat_listener')
 	skynet.newservice('ws_master')
 	skynet.newservice('web_master')
+	skynet.newservice("res_mgr")
 	skynet.monitor('node_monitor')
 
 	snax.uniqueservice("accountdb_snax")

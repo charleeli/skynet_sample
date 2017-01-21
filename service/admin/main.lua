@@ -55,12 +55,19 @@ local function quick_kick(args)
     return json.encode(ret)
 end
 
+local function quick_reload_res(args)
+    LOG_INFO('request the whole quick cluster reload_res')
+    local ret = cluster_monitor_cli.reload_res()
+    return json.encode(ret.result)
+end
+
 local Cmd = {
     ['index']       = index,            --http://0.0.0.0:10086/quick?cmd=index
     ['login']       = login,            --http://0.0.0.0:10086/quick?cmd=login&username='admin'&password='admin'
 
     ['shutdown']    = quick_shutdown,   --http://0.0.0.0:10086/quick?cmd=shutdown
     ['kick']        = quick_kick,       --http://0.0.0.0:10086/quick?cmd=kick&uid=6
+    ['reload_res']  = quick_reload_res, --http://0.0.0.0:10086/quick?cmd=reload_res
 }
 
 skynet.start(function()

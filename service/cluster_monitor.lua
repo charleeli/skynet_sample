@@ -102,7 +102,8 @@ end
 local Cmd = {}
 
 function Cmd.connect(...)
-    return acceptor.connect_handler(...)
+    local r = acceptor.connect_handler(...)
+    skynet.retpack(r)
 end
 
 function Cmd.unregister_node(node_name, version)
@@ -168,7 +169,7 @@ function Cmd.register_node(node_name, node_monitor_addr)
         "register node<%s> suc, monitor<%s>, version<%s>",
         node_name, node_monitor_addr, version
     )
-    
+
     return skynet.retpack({errcode = ERRCODE.E_OK})
 end
 
