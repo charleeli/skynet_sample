@@ -10,5 +10,7 @@ ERRCODE = {
     E_CHAT_EMPTY        = -8,       -- 聊天消息长度为0
     E_CHAT_OVENLEN      = -9,       -- 聊天消息过长
     E_CONTENT_SENSITIVE = -10,      -- 内容敏感
-    E_FAKE_DISCONNECTED = -11,      -- 假装失败
+    E_SUBJECT_LONG      = -11,      -- 标题太长
+    E_CONTENT_LONG      = -12,      -- 内容太长
+    E_FAKE_DISCONNECTED = -13,      -- 假装失败
 }

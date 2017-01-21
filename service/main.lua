@@ -23,6 +23,7 @@ skynet.start(function()
         skynet.uniqueservice(true, 'cluster_monitor')
 		skynet.uniqueservice(true, 'admin')
         skynet.uniqueservice(true, 'chat_speaker')
+        skynet.uniqueservice(true, 'mailbox')
 		snax.uniqueservice("online_snax")
 	end
 
